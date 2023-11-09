@@ -1,6 +1,9 @@
 # MICCAI Crawler
 This is a tool designed to crawl papers relevant to <mark>'contrastive learning'</mark> and <mark>'self-supervised learning'</mark> from MICCAI 2023. The output will contain MICCAI links, DOIs, paper titles, methodologies, and modalities.
 
+This is a sample output:
+![Local Image](./tmp.png)
+
 Required environment:
 ```
 pip install tqdm
