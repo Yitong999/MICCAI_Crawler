@@ -65,10 +65,20 @@ def get_paper_topics(url):
             category_links = post_categories_div.find_all('a')
             
             # Iterate over each 'a' tag and get its text
+            applications = []
             for link in category_links:
                 category_name = link.get_text(strip=True)  # strip=True to remove any leading/trailing whitespaces
+                # print(category_name)
                 if category_name.split(' - ')[0] == 'Modalities':
                     modalities.append(category_name.split(' - ')[1])
+                else:
+                    # print(category_name)
+                    if category_name.split(' - ')[0] != 'Machine Learning':
+                        # print(category_name)
+                        applications.append(category_name)
+                
+
+
 
 
         text = soup.get_text()
@@ -84,7 +94,7 @@ def get_paper_topics(url):
             # print(paper_link)
             # print(topics_here)
             # print(modalities)
-            write_to_excel(wb, title, url, paper_link, topics_here, modalities)
+            write_to_excel(wb, title, url, paper_link, topics_here, modalities, applications)
             # print()
 
             # return title, url, paper_link, topics_here, modalities
@@ -97,7 +107,7 @@ def get_paper_topics(url):
         print("Failed to retrieve the webpage")
         return False
 
-def write_to_excel(wb, title, url, doi, tags, modalities):
+def write_to_excel(wb, title, url, doi, tags, modalities, applications):
  
         # Prepare the data for the fifth column
     self_supervised = 'yes' if 'self-supervised' in tags else 'no'
@@ -110,7 +120,14 @@ def write_to_excel(wb, title, url, doi, tags, modalities):
     else:
         images_modalities = ' | '.join(modalities)
     # Write data to the first row
-    ws.append([title, url, doi, self_supervised, contrastive, images_modalities])
+
+    data_to_append = [title, url, doi, self_supervised, contrastive, images_modalities]
+    data_to_append.extend(applications)
+    # print(data_to_append)
+    print()
+    ws.append(data_to_append)
+    # ws.append([title, url, doi, self_supervised, contrastive, images_modalities])
+    
 
     # Save the workbook
     # wb.save("output.xlsx")
